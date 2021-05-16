@@ -12,14 +12,12 @@ env = Environment(
 
 template = env.get_template('template.html')
 
-df_products = pd.read_excel('./data/wine2.xlsx', keep_default_na=False, na_values=None)
-products = {x: [] for x in df_products['Категория'].unique()} # products = collections.defaultdict(list)
+df_products = pd.read_excel('./data/wine3.xlsx', keep_default_na=False, na_values=None)
 
+products = collections.defaultdict(list)
 for product in range(df_products.shape[0]):
     products[df_products['Категория'][product]].append(dict(df_products.iloc[product, ]))
 
-pp = pprint.PrettyPrinter()
-pp.pprint(products)
 
 rendered_page = template.render(
     manufactory_age=datetime.datetime.now().year-1920,
