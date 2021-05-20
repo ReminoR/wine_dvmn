@@ -12,7 +12,7 @@ env = Environment(
 
 template = env.get_template('template.html')
 
-df_products = pd.read_excel('./data/wine3.xlsx', keep_default_na=False, na_values=None)
+df_products = pd.read_excel('./data/catalog.xlsx', keep_default_na=False, na_values=None)
 
 products = collections.defaultdict(list)
 for product in range(df_products.shape[0]):
