@@ -114,13 +114,12 @@
           </div>
         </div>
         {% for category, list_product in products.items() %}
-        
-        <div class="row">
-          <div class="col-12 section-title text-center mb-5">
-            <h2 class="d-block">{{ category }}</h2>
+          <div class="row">
+            <div class="col-12 section-title text-center mb-5">
+              <h2 class="d-block">{{ category }}</h2>
+            </div>
           </div>
-        </div>
-        <div class="row">
+          <div class="row">
             {% for product in list_product %}
               <div class="col-lg-4 mb-5 col-md-6">
                 <div class="wine_v_1 text-center pb-4 pt-5">
