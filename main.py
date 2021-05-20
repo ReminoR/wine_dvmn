@@ -11,11 +11,11 @@ env = Environment(
 
 template = env.get_template('template.html')
 
-df_products = pd.read_excel('./data/catalog.xlsx', keep_default_na=False, na_values=None)
+catalog = pd.read_excel('./data/catalog.xlsx', keep_default_na=False, na_values=None)
 
 products = collections.defaultdict(list)
-for product in range(df_products.shape[0]):
-    products[df_products['Категория'][product]].append(dict(df_products.iloc[product, ]))
+for product in range(catalog.shape[0]):
+    products[catalog['Категория'][product]].append(dict(catalog.iloc[product, ]))
 
 
 def main():
