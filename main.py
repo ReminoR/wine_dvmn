@@ -23,7 +23,16 @@ def open_catalog(file):
     return products
 
 
-def create_template():
+def run_server():
+    server = HTTPServer(('0.0.0.0', 8000), SimpleHTTPRequestHandler)
+    server.serve_forever()
+
+
+def main():
+    parser = createParser()
+    namespace = parser.parse_args()
+    products = open_catalog(namespace.filepath)
+
     env = Environment(
         loader=FileSystemLoader('.'),
         autoescape=select_autoescape(['html', 'xml'])
@@ -39,20 +48,6 @@ def create_template():
     with open('index.html', 'w', encoding="utf8") as file:
         file.write(rendered_page)
 
-
-def run_server():
-    server = HTTPServer(('0.0.0.0', 8000), SimpleHTTPRequestHandler)
-    server.serve_forever()
-
-
-def main():
-    parser = createParser()
-    namespace = parser.parse_args()
-
-    print(namespace)
-
-    products = open_catalog(namespace.filepath)
-    create_template()
     run_server()
 
 
