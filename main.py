@@ -5,6 +5,9 @@ import collections
 import pandas as pd
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
+YEAR_FOUNDATION = 1920
+manufactory_age = datetime.datetime.now().year - YEAR_FOUNDATION
+
 
 def createParser():
     parser = argparse.ArgumentParser()
@@ -23,6 +26,23 @@ def open_catalog(file):
     return products
 
 
+def create_template(manufactory_age, products):
+    env = Environment(
+        loader=FileSystemLoader('.'),
+        autoescape=select_autoescape(['html', 'xml'])
+    )
+
+    template = env.get_template('template.html')
+
+    rendered_page = template.render(
+        manufactory_age=manufactory_age,
+        products=products,
+    )
+
+    with open('index.html', 'w', encoding="utf8") as file:
+        file.write(rendered_page)
+
+
 def run_server():
     server = HTTPServer(('0.0.0.0', 8000), SimpleHTTPRequestHandler)
     server.serve_forever()
@@ -32,22 +52,7 @@ def main():
     parser = createParser()
     namespace = parser.parse_args()
     products = open_catalog(namespace.filepath)
-
-    env = Environment(
-        loader=FileSystemLoader('.'),
-        autoescape=select_autoescape(['html', 'xml'])
-    )
-
-    template = env.get_template('template.html')
-
-    rendered_page = template.render(
-        manufactory_age=datetime.datetime.now().year-1920,
-        products=products,
-    )
-
-    with open('index.html', 'w', encoding="utf8") as file:
-        file.write(rendered_page)
-
+    create_template(manufactory_age, products)
     run_server()
 
 
