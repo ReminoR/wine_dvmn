@@ -1,7 +1,8 @@
-from http.server import HTTPServer, SimpleHTTPRequestHandler
 import argparse
-import datetime
 import collections
+import datetime
+from http.server import HTTPServer, SimpleHTTPRequestHandler
+
 import pandas as pd
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
@@ -10,14 +11,14 @@ manufactory_age = datetime.datetime.now().year - YEAR_FOUNDATION
 
 
 def createParser():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-f', '--filepath', default='./data/catalog.xlsx')
+    parser = argparse.ArgumentParser(description='The application prepairs web-server for site')
+    parser.add_argument('-f', '--filepath', default='./data/catalog.xlsx', help='Path to file of catalog products (.xlsx)')
 
     return parser
 
 
-def open_catalog(file):
-    catalog = pd.read_excel(file, keep_default_na=False, na_values=None).to_dict(orient='records')
+def open_catalog(filepath):
+    catalog = pd.read_excel(filepath, keep_default_na=False, na_values=None).to_dict(orient='records')
     products = collections.defaultdict(list)
 
     for product in catalog:
