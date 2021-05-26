@@ -7,7 +7,6 @@ import pandas as pd
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 YEAR_FOUNDATION = 1920
-manufactory_age = datetime.datetime.now().year - YEAR_FOUNDATION
 
 
 def createParser():
@@ -27,7 +26,7 @@ def open_catalog(filepath):
     return products
 
 
-def create_template(manufactory_age, products):
+def get_template():
     env = Environment(
         loader=FileSystemLoader('.'),
         autoescape=select_autoescape(['html', 'xml'])
@@ -35,6 +34,10 @@ def create_template(manufactory_age, products):
 
     template = env.get_template('template.html')
 
+    return template
+
+
+def render_page(template, manufactory_age, products):
     rendered_page = template.render(
         manufactory_age=manufactory_age,
         products=products,
@@ -50,10 +53,13 @@ def run_server():
 
 
 def main():
+    manufactory_age = datetime.datetime.now().year - YEAR_FOUNDATION
+
     parser = createParser()
     namespace = parser.parse_args()
     products = open_catalog(namespace.filepath)
-    create_template(manufactory_age, products)
+    template = get_template()
+    render_page(template, manufactory_age, products)
     run_server()
 
 
