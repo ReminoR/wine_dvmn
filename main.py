@@ -28,10 +28,14 @@ def open_catalog(filepath):
 
 
 def count_age(YEAR_FOUNDATION):
-    morph = pymorphy2.MorphAnalyzer()
     manufactory_age = datetime.datetime.now().year - YEAR_FOUNDATION
-    year = morph.parse('год')[0]
-    year_label = year.make_agree_with_number(manufactory_age % 10).word
+
+    if manufactory_age % 10 == 1 and manufactory_age % 100 != 11:
+        year_label = 'год'
+    elif manufactory_age % 10 in range(2, 5) and not manufactory_age % 100 in range(12, 15):
+        year_label = 'года'
+    elif manufactory_age % 10 == 0 or manufactory_age % 10 in range(5, 10) or manufactory_age % 100 in range(11, 15):
+        year_label = 'лет'
 
     return {'age': manufactory_age, 'year_label': year_label}
 
