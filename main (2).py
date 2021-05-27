@@ -4,7 +4,6 @@ import datetime
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 
 import pandas as pd
-import pymorphy2
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 YEAR_FOUNDATION = 1920
