@@ -4,6 +4,7 @@ import datetime
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 
 import pandas as pd
+import pymorphy2
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 YEAR_FOUNDATION = 1920
@@ -24,6 +25,15 @@ def open_catalog(filepath):
         products[product['Категория']].append(product)
 
     return products
+
+
+def count_age(YEAR_FOUNDATION):
+    morph = pymorphy2.MorphAnalyzer()
+    manufactory_age = datetime.datetime.now().year - YEAR_FOUNDATION
+    year = morph.parse('год')[0]
+    year_label = year.make_agree_with_number(manufactory_age % 10).word
+
+    return {'age': manufactory_age, 'year_label': year_label}
 
 
 def get_template():
@@ -53,11 +63,10 @@ def run_server():
 
 
 def main():
-    manufactory_age = datetime.datetime.now().year - YEAR_FOUNDATION
-
     parser = createParser()
     namespace = parser.parse_args()
     products = open_catalog(namespace.filepath)
+    manufactory_age = count_age(YEAR_FOUNDATION)
     template = get_template()
     render_page(template, manufactory_age, products)
     run_server()
