@@ -113,10 +113,10 @@
             </p>
           </div>
         </div>
-        {% for category, category_products in products.items() %}
+        {% for category, category_products in products | dictsort %}
           <div class="row">
             <div class="col-12 section-title text-center mb-5">
-              <h2 class="d-block">{{ category }}</h2>
+              <h2 class="d-block">{{ category }} </h2>
             </div>
           </div>
           <div class="row">
